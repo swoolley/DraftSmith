@@ -1,0 +1,5 @@
+google-api-python-client>=2.150,<3
+google-auth-oauthlib>=1.2,<2
+keyring>=25,<26
+openai>=1.100,<3
+PySide6>=6.9,<7
