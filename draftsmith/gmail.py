@@ -117,6 +117,14 @@ class GmailClient:
         result = self.service.users().messages().list(userId="me", q=query, maxResults=limit).execute()
         return [self._message(x["id"]) for x in result.get("messages", [])]
 
+    def labeled_sent_context(self, label_id: str, limit: int) -> list[Mail]:
+        if limit <= 0:
+            return []
+        result = self.service.users().messages().list(
+            userId="me", labelIds=[label_id], q="in:sent", maxResults=limit
+        ).execute()
+        return [self._message(x["id"]) for x in result.get("messages", [])]
+
     def create_reply_draft(self, original: Mail, body: str) -> str:
         recipient = parseaddr(original.sender)[1]
         if not recipient:

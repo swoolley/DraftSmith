@@ -8,7 +8,8 @@ DraftSmith is a standalone Qt desktop utility built with PySide6. It watches sel
 2. In PyCharm, select the project's virtual environment and run `pip install -r requirements.txt`.
 3. Run `main.py`, choose the downloaded OAuth JSON, and click **Connect Gmail**.
 4. Paste a project-scoped OpenAI API key and click **Save & test**.
-5. Enter Gmail label names (for example `INBOX, Clients`), choose a refresh interval, and customize the drafting prompt if desired.
+5. Enter Gmail label names (for example `INBOX, Clients`) and choose a refresh interval.
+6. Optionally customize the system and drafting prompts, the per-message Sent-body byte limit, and a supplemental Gmail label for broader Sent-mail context.
 
 On the first scan, DraftSmith establishes a time baseline and does not process existing mail. Later scans create at most one draft per incoming Gmail message.
 
@@ -17,6 +18,7 @@ On the first scan, DraftSmith establishes a time baseline and does not process e
 - OAuth tokens and the OpenAI API key are stored in the operating system credential vault through `keyring`.
 - The local SQLite database stores Gmail message IDs, draft IDs, and timestamps only.
 - Relevant sent messages are fetched just-in-time and are not cached locally.
+- Sender-matched Sent messages form the primary context. When an optional supplemental label is configured, the newest Sent messages carrying that label are added up to the configured message limit; duplicates are removed.
 - OpenAI Responses requests use `store=False`.
 - Requested Gmail scopes are read-only mailbox access plus Gmail's composition scope. Google bundles draft creation and sending into that composition scope, but this app has no send implementation and never calls Gmail's send endpoint.
 
